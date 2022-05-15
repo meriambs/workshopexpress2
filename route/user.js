@@ -1,8 +1,9 @@
 const express = require('express');
-const {delet} = require('./controlers/user')
+// const {delet} = require('./controlers/user')
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
-const usersList = require('../data');
+//ici c let pour admetre les modif et nn pas const 
+let usersList = require('../data');
 //ii njibou les users el kolla 
 router.get('/',(req,res)=>{
     res.send(usersList)
@@ -61,7 +62,13 @@ res.json({msg:"user edited",editeduser})
 // })
 
 
-router.delete("/:id",delet)
+router.delete("/:id",(req,res)=>{
+    const id=req.params.id
+     usersList = usersList.filter(user=>  user.id!=id )
+
+   
+    res.json({msg:"user deleted",usersList})
+   })
 
 
 module.exports = router;
